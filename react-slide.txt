@@ -1,0 +1,46 @@
+1. JSX syntax
+
+2. State and Lifecycle
+
+	Cách sử dụng state trong React
+	Cập nhật state với setState()
+	Phương thức lifecycle của component
+
+	// callback luôn được gọi khi component mount
+	// Cleanup func luôn được gọi trước khi component unMounted
+	// Cleanup func luôn được gọi trước khi callback được gọi ( trừ lần đầu tiên component mount)
+	
+3. Handling Events
+
+	Cách xử lý sự kiện trong React
+	Bắt sự kiện bàn phím và chuột
+
+4. Conditional Rendering
+
+	Cách sử dụng điều kiện để hiển thị các phần tử UI khác nhau
+	Các phương thức trong component để điều kiện render
+
+5. Lists and Keys
+	Hiển thị các danh sách dữ liệu trong React
+	Cách sử dụng keys để tối ưu hiển thị danh sách
+
+6. Forms
+	Xử lý và kiểm tra dữ liệu từ các form
+	Cập nhật state với form
+
+7. Components and Props
+
+	Sử dụng các component để tạo các phần tử UI
+	Truyền dữ liệu giữa các component bằng props
+
+8. Routing, HTTP request
+	Hiểu về các phương thức HTTP: GET, POST, PUT, PATCH, DELETE
+	Cài đặt và sử dụng react router dom
+	Truyền dữ liệu thông qua router, bảo vệ router
+	Giải thích về http request, API
+	Sử dụng  Fetch/Axios để call API
+
+9. Redux 
+	Giải thích các concepts : Store, Action Creater, Reducer
+	Thực hành cài đặt và sử dụng Redux
+
