@@ -1,8 +1,5 @@
-1. useState with todoList
+cách làm : 
 
-2. useEffect
-    - side effect update dom
-    - call api
-3. listen dom event. example : scroll, resize
-    
-
+1. Cần giá trị khi nhập vào input
+2. bắt sự kiện Click vào button . Cụ thể là dấu cộng -> handleFormValue trong components/Form
+3. Tạo một useState để lưu trữ một danh sách.

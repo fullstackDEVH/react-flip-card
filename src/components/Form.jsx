@@ -2,9 +2,7 @@ const Form = () => {
   
   const handleFormValue = (e) => {
     e.preventDefault();
-    console.log(e.target["text-input"].value);
-    console.log(e.target["todos"].value);
-
+    
   };
 
   return (
