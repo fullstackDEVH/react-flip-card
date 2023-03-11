@@ -1,56 +1,117 @@
-import Form from "./components/Form";
-import List from "./components/List";
-import { v4 as uuidv4 } from "uuid";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import CardFlip from "./components/CardFlip";
 
-function App() {
-  // list
-  // uuidv4();
+let initialChoose = {
+  one: {
+    value: "",
+    index: "-1",
+  },
+  two: {
+    value: "",
+    index: "-2",
+  },
+};
 
-  const handleFormValue = (e) => {
-    e.preventDefault();
+const Ad = () => {
+  const [isSame, setIsSame] = useState([]);
+  const [indexCards, setIndexCards] = useState([]);
+  const [choose, setChoose] = useState(initialChoose);
+  const [countUp, setCountUp] = useState(0);
+
+  const href = useRef();
+
+  const handleCheckChoose = () => {
+    if (!choose.one || !choose.two) return false;
+    if (+choose.one !== +choose.two) return false;
+    return true;
   };
+
+  const createShuffle = useCallback(() => {
+    let arrDuplicate = createSequenceNumber();
+    for (let i = arrDuplicate.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arrDuplicate[i], arrDuplicate[j]] = [arrDuplicate[j], arrDuplicate[i]];
+    }
+    return arrDuplicate;
+  }, []);
+
+ 
+  const handleSetChoose = ({ indexItem, index }) => {
+    if (!choose.one.value) {
+      setChoose((preValue) => ({
+        ...preValue,
+        one: { value: indexItem, index },
+      }));
+    } else if (!choose.two.value) {
+      setChoose((preValue) => ({
+        ...preValue,
+        two: { value: indexItem, index },
+      }));
+    }
+  };
+
+  useLayoutEffect(() => {
+    setIndexCards(createShuffle(createShuffle()));
+  }, [createShuffle]);
+
+
+  useEffect(() => {
+    let timeout;
+    if (choose.one.value && choose.two.value) {
+      if (choose.one.value !== choose.two.value) {
+        timeout = setTimeout(() => {
+          setChoose(initialChoose);
+        }, 1000);
+      } else {
+        setIsSame((pre) => [...pre, choose.one.value]);
+        setChoose(initialChoose);
+      }
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [choose]);
+
+  useEffect(() => {
+   
+    if(countUp === 0 ) {
+      href.current = setInterval(() => {
+        setCountUp(pre=> pre +1);
+      }, 1000)
+    }
+    console.log(indexCards.length);
+    if(indexCards.length!==0 && isSame.length === indexCards.length / 2) {
+      clearInterval(href.current)
+    }
+    
+  }, [isSame.length])
+
+  const createSequenceNumber = (count = 2) => {
+    let data = [...Array(count).keys()].map((i) => i + 1);
+
+    return [...data, ...data];
+  };
+
+ 
+  console.log('render');
   return (
-    <div className="App">
-      <header>
-        <h1>Todo App</h1>
-      </header>
-      
-      <form onSubmit={handleFormValue}>
-        <input type="text" name="text-input" class="todo-input" />
-        <button className="todo-button" type="submit">
-          <i className="fas fa-plus-square"></i>
-        </button>
-        <div className="select">
-          <select name="todos" className="filter-todo">
-            <option value="all">All</option>
-            <option value="completed">Completed</option>
-            <option value="uncompleted">Uncompleted</option>
-          </select>
-        </div>
-      </form>
-
-      <div class="todo-container">
-        {/* todo list là cái để hiện thị danh sách */}
-        <ul class="todo-list">
-
-          {/* item todo */}
-          <div className="todo">
-            <li className="todo-item completed">abc</li>
-            {/* complete-btn là nút thay đổi trạng thái thành done (0 hoặc 1) */}
-            <button className="complete-btn">
-              <i className="fas fa-check"></i>{" "}
-            </button>
-
-             {/* trash-btn là nút để xoá 1 todo trong danh sách */}
-            <button className="trash-btn">
-              <i className="fas fa-trash"></i>{" "}
-            </button>
-          </div>
-
-        </ul>
+    <div id="App">
+      <h2>time : {countUp}</h2>
+      <div className="container">
+        {indexCards.map((indexItem, index) => (
+          <CardFlip
+            isPlip={+index === +choose.one.index || +index === +choose.two.index}
+            indexItem={indexItem}
+            index={index}
+            handleSetChoose={handleSetChoose}
+            isSame={isSame}
+            key={Math.random() * 10000}
+          />
+        ))}
       </div>
     </div>
   );
-}
+};
 
-export default App;
+export default Ad;
